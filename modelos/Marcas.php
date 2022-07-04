@@ -27,7 +27,7 @@ class Marca extends conectar
 	public function get_marcas(){
 		$conectar= parent::conexion();
 		parent::set_names();
-		$sql="select * from marca where id_marca >5 order by id_marca DESC;";
+		$sql="select * from marca order by id_marca DESC;";
 		$sql=$conectar->prepare($sql);
 		$sql->execute();
 		return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);

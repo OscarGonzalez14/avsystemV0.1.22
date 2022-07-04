@@ -1,14 +1,19 @@
 <style>
  .modal-header{
-        background-color: black !important;
+        background-color: #7A92A1 !important;
         color: white;
         text-align: center;
     }
+
+
+  #tamModalAros{
+    max-width: 90%;
+  }
 </style>
   
 <!-- Modal -->
 <div class="modal fade" id="nuevo_aro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+  <div class="modal-dialog modal-dialog-scrollable" role="document" id='tamModalAros'>
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-plus-square"></i> NUEVO ARO</h5>
@@ -19,7 +24,7 @@
       <div class="modal-body">
   <div class="form-row" autocomplete="on">
     <div class="form-group  col-md-6">
-      <button class="btn btn-success" style="color:white; margin:solid black 1px" data-toggle="modal" data-target="#newMarca" onClick="limpiar_input();"><i class="fas fa-plus-square"></i> Crear Marca</button>
+      <button class="btn btn-sm btn-outline-success btn-flat" style="margin:solid black 1px" data-toggle="modal" data-target="#newMarca" onClick="limpiar_input();"><i class="fas fa-plus-square"></i> Crear Marca</button>
     </div>
     
    <div class="form-group col-md-6">
@@ -27,9 +32,10 @@
    </div>
   
 
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-4 select2-purple">
        <label for="sel1">Seleccione marca:</label>
-      <select class="form-control" name="" id="marca_aros"></select>
+      <select class="form-control select2" name="" id="marca_aros" multiple="multiple"
+data-dropdown-css-class="select2-purple"></select>
     </div>
     
     <div class="form-group col-md-4">
@@ -83,8 +89,23 @@
       <input type="hidden" id="categoria_producto" value="aros"/>
       <div class="modal-footer">
 
-        <button type="button" class="btn btn-primary" onClick="guardarAro();"><i class="fas fa-save"></i>GUARDAR</button>
+        <button type="button" class="btn btn-info btn-block" onClick="guardarAro();"><i class="fas fa-save"></i> GUARDAR</button>
       </div>
+      <table width="100%" class="table-bordered table-hover" style="margin:5px">
+      <thead style="background:#0b1118;color:white;font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center">
+          <tr>
+          <th>ID</th>
+          <th>Marca</th>
+          <th>Modelo</th>
+          <th>Color</th>
+          <th>Material</th>
+          <th>Diseño</th>
+          <th>Ubicar</th>
+          </tr>
+        </thead>
+        <tbody style="font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;">                                  
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

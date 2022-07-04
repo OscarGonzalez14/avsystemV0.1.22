@@ -67,9 +67,8 @@ $retencion = $_GET["retencion"];
 <?php
 $salida_html = ob_get_contents();
 
-  //$user=$_SESSION["id_usuario"];
-
-  ob_end_clean();
+//$user=$_SESSION["id_usuario"];
+ob_end_clean();
 $dompdf = new Dompdf();
 $dompdf->loadHtml($salida_html);
 
@@ -80,6 +79,6 @@ $dompdf->setPaper('letter', 'portrait');
 $dompdf->render();
 
 // Output the generated PDF to Browser
-//$dompdf->stream();
 $dompdf->stream('document', array('Attachment'=>'0'));
+
 ?>

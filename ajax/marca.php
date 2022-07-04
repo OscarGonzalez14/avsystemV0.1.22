@@ -35,22 +35,19 @@ switch ($_GET["op"]) {
            ?>
    <?php
    }
-//fin mensaje error
+  //fin mensaje error
     break;
 
     case "get_marcas":
     $datos= $marca->get_marcas();  
     $data= Array();
 
-    foreach($datos as $row)
-  {
-    $sub_array = array();
-    $sub_array[] = $row["marca"];
-    $data[] = $sub_array;
+    foreach($datos as $row){
+      $sub_array = $row["marca"];
+      array_push($data,$sub_array);
+    }
 
-  }
-    $results=$data;
- 
-    echo json_encode($results);
+    echo json_encode($data);
     break;
+
 }

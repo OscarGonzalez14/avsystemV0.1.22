@@ -121,14 +121,15 @@ function exitoso(){
 }
 ///////////////GUARDAR ARO
 function guardarAro(){
-	var marca_aros =$("#marca_aros").val();
-	var modelo_aro =$("#modelo_aro").val();
-	var color_aro =$("#color_aro").val();
-	var medidas_aro =$("#medidas_aro").val();
-	var diseno_aro =$("#diseno_aro").val();
-	var materiales_aro =$("#materiales_aro").val();
-	var cat_venta_aros =$("#cat_venta_aros").val();
-	var categoria_producto =$("#categoria_producto").val();
+	let marca_aro =$("#marca_aros").val();
+  let marca_aros = marca_aro.toString();
+	let modelo_aro = $("#modelo_aro").val();
+	let color_aro = $("#color_aro").val();
+	let medidas_aro = $("#medidas_aro").val();
+	let diseno_aro = $("#diseno_aro").val();
+	let materiales_aro = $("#materiales_aro").val();
+	let cat_venta_aros = $("#cat_venta_aros").val();
+	let categoria_producto = $("#categoria_producto").val();
 
     //validamos, si los campos(paciente) estan vacios entonces no se envia el formulario
 if(marca_aros != "" && modelo_aro != "" && color_aro != "" && medidas_aro != "" && diseno_aro != "" && materiales_aro != ""){

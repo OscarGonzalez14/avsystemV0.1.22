@@ -22,11 +22,6 @@ $marcas=$marca->get_marca();
       border: solid 1px black;
     }
 
-    .modal-dialog {
-      height: 75vh;
-      display: flex;
-      align-items: center;
-}
 </style>
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="edit_aro" style="border-radius:0px !important;">

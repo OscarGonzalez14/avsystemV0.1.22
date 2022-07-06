@@ -482,6 +482,31 @@ case "listar_productos_traslado":
 
     break;
 
+    case "get_aros_creados_ubicar":
+      $datos=$productos->get_aros();
+      //Vamos a declarar un array
+      $data= Array();
+  
+      foreach($datos as $row){
+          $sub_array = array();
+          $sub_array[] = $row["id_producto"];
+          $sub_array[] = $row["marca"];
+          $sub_array[] = $row["modelo"];
+          $sub_array[] = $row["color"];
+          $sub_array[] = $row["materiales"];
+          $sub_array[] = $row["diseno"];
+          $sub_array[] = '<button type="button" class="btn btn-edit btn-md edita_aro bg-light" style="text-align:center" onClick="arosUbicarIndividual('.$row["id_producto"].'\''.$row["modelo"].'\',\''.$row["color"].'\',\''.$row["marca"].'\');" data-toggle="modal" data-target="#edit_aro" data-backdrop="static" data-keyboard="false"><i class="fa fa-edit" aria-hidden="true" style="color:#006600"></i></button>';
+          $data[] = $sub_array;
+        }
+  
+        $results = array(
+        "sEcho"=>1, //Información para el datatables
+        "iTotalRecords"=>count($data), //enviamos el total registros al datatable
+        "iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+        "aaData"=>$data);
+        echo json_encode($results);
+      break;
+
 
   
 }

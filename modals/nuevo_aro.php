@@ -1,6 +1,6 @@
 <style>
  .modal-header{
-        background-color: #7A92A1 !important;
+        background-color: #7A92A1;
         color: white;
         text-align: center;
     }
@@ -91,10 +91,9 @@ data-dropdown-css-class="select2-purple"></select>
     <button type="button" class="btn btn-info btn-block" onClick="guardarAro();"><i class="fas fa-save"></i> GUARDAR</button>
   </div>
 
-  <table width="100%" class="table-bordered table-hover">
+  <table width="100%" class="table-bordered table-hover" id="data_table_aros_ubicar">
       <thead style="background:#0b1118;color:white;font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center">
           <tr>
-          <th>ID</th>
           <th>Marca</th>
           <th>Modelo</th>
           <th>Color</th>
@@ -103,9 +102,9 @@ data-dropdown-css-class="select2-purple"></select>
           <th>Ubicar</th>
           </tr>
         </thead>
-        <tbody style="font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;">                                  
+        <tbody style="font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;" id="ingreso-ind-temp">                                  
         </tbody>
-      </table>
+  </table>
 
       </div>
       <input type="hidden" id="categoria_producto" value="aros"/>

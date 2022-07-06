@@ -15,7 +15,28 @@ require_once('modals/editar_aro.php');
     </div>
 	
 </div>
-    
+   
+
+<!-- Modal ubicacion individual-->
+<div class="modal" id="ubicacion-ind">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header bg-dark" style="background: #073763 !impoprtant;color:white;padding:10px">        
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        ----------------------
+      </div>
+
+      </div>
+  </div>
+</div>
+
+
 </div><!-- /.wrapper -->
 <?php require_once("footer.php"); ?>
 <script src='js/bootbox.min.js'></script>

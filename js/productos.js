@@ -120,6 +120,7 @@ function exitoso(){
   })
 }
 ///////////////GUARDAR ARO
+var aros_creados = [];
 function guardarAro(){
 	let marca_aro =$("#marca_aros").val();
   let marca_aros = marca_aro.toString();
@@ -139,20 +140,22 @@ if(marca_aros != "" && modelo_aro != "" && color_aro != "" && medidas_aro != "" 
     data:{marca_aros:marca_aros,modelo_aro:modelo_aro,color_aro:color_aro,medidas_aro:medidas_aro,diseno_aro:diseno_aro,materiales_aro:materiales_aro,cat_venta_aros:cat_venta_aros,categoria_producto:categoria_producto},
     cache: false,
     dataType:"json",
-    error:function(x,y,z){
-      d_pacole.log(x);
-      console.log(y);
-      console.log(z);
-    },
     success:function(data){
-      //$('#resultados_ajax').html(data);
-      console.log(data);
       if(data=='error'){
         Swal.fire('Producto ya Existe!','','error')
         return false;
       }else if (data=="ok") {
-        Swal.fire('Se Creado un Nuevo Aro!','','success')
-        $("#nuevo_aro").modal('hide');
+        Swal.fire('Se creado un nuevo aro!','','success')
+        let obj = {
+          marca_aros:marca_aros,
+          modelo_aro:modelo_aro,
+          color_aro:color_aro,
+          medidas_aro:medidas_aro,
+          diseno_aro:diseno_aro,
+          materiales_aro:materiales_aro
+        }
+        aros_creados.push(obj);
+        ubicarArosInvidividual()
       }
 
     }
@@ -1383,6 +1386,82 @@ function listar_servicios_venta(){
          }//cerrando language
 
   }).DataTable();
+}
+
+function ubicarArosInvidividual(){
+  console.log("ok234")
+  $("#ingreso-ind-temp").html("");
+  var filas = '';
+
+  for(var i=0; i < aros_creados.length; i++){
+    filas = filas + "<tr id='fila"+i+"'>"+
+    
+    "<td>"+aros_creados[i].marca_aros+"</td>"+
+    "<td>"+aros_creados[i].modelo_aro+"</td>"+
+    "<td>"+aros_creados[i].color_aro+"</td>"+
+    "<td>"+aros_creados[i].materiales_aro+"</td>"+
+    "<td>"+aros_creados[i].diseno_aro+"</td>"+    
+    "<td><button type='button' class='btn btn-edit btn-md edita_aro bg-light' style='text-align:center' onClick='arosUbicarIndividual('.$row['id_producto'].'\''.$row['modelo'].'\',\''.$row['color'].'\',\''.$row['marca'].'\');' data-toggle='modal' data-target='#ubicacion-ind' data-backdrop='static' data-keyboard='false'><i class='fas fa-box' aria-hidden='true' style='color:#006600'></i></button>'</td>"+
+    "</tr>";
+  }
+  
+  $('#ingreso-ind-temp').html(filas);
+}
+function dtTemplateCobros(table,route,...Args){
+
+  tabla = $('#'+table).DataTable({      
+  "aProcessing": true,//Activamos el procesamiento del datatables
+  "aServerSide": true,//Paginación y filtrado realizados por el servidor
+  dom: 'Bfrtip',//Definimos los elementos del control de tabla
+  buttons: [     
+    'excelHtml5',
+  ],
+
+  "ajax":{
+    url:"ajax/productos.php?op="+ route,
+    type : "POST",
+    data: {Args:Args},
+    dataType : "json",
+     
+    error: function(e){
+    console.log(e.responseText);
+  },      
+  /*success: function(result) {
+    console.log(result.aaData)
+  },*/ 
+},
+
+  "bDestroy": true,
+  "responsive": true,
+  "bInfo":true,
+  "iDisplayLength": 2000,//Por cada 10 registros hace una paginación
+    "order": [[ 0, "asc" ]],//Ordenar (columna,orden)
+    "language": { 
+    "sProcessing":     "Procesando...",       
+    "sLengthMenu":     "Mostrar _MENU_ registros",       
+    "sZeroRecords":    "No se encontraron resultados",       
+    "sEmptyTable":     "Ningún dato disponible en esta tabla",       
+    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",       
+    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",       
+    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",    
+    "sInfoPostFix":    "",       
+    "sSearch":         "Buscar:",       
+    "sUrl":            "",       
+    "sInfoThousands":  ",",       
+    "sLoadingRecords": "Cargando...",       
+    "oPaginate": {       
+        "sFirst":    "Primero",       
+        "sLast":     "Último",       
+        "sNext":     "Siguiente",       
+        "sPrevious": "Anterior"       
+    },   
+    "oAria": {       
+        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",       
+        "sSortDescending": ": Activar para ordenar la columna de manera descendente"   
+    }}, //cerrando language
+});
+
+ 
 }
 
 init();

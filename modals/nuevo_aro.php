@@ -85,13 +85,13 @@ data-dropdown-css-class="select2-purple"></select>
       </select>
     </div>
   </div>
-      </div>
-      <input type="hidden" id="categoria_producto" value="aros"/>
-      <div class="modal-footer">
 
-        <button type="button" class="btn btn-info btn-block" onClick="guardarAro();"><i class="fas fa-save"></i> GUARDAR</button>
-      </div>
-      <table width="100%" class="table-bordered table-hover" style="margin:5px">
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-info btn-block" onClick="guardarAro();"><i class="fas fa-save"></i> GUARDAR</button>
+  </div>
+
+  <table width="100%" class="table-bordered table-hover">
       <thead style="background:#0b1118;color:white;font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center">
           <tr>
           <th>ID</th>
@@ -106,6 +106,11 @@ data-dropdown-css-class="select2-purple"></select>
         <tbody style="font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;">                                  
         </tbody>
       </table>
+
+      </div>
+      <input type="hidden" id="categoria_producto" value="aros"/>
+
+     
     </div>
   </div>
 </div>

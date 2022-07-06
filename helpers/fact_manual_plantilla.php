@@ -6,7 +6,7 @@
     <td colspan="35" style="color:black;font-size:11px;border: 1px solid white;font-family: Helvetica, Arial, sans-serif;width: 35%"><strong>DIRECCION:</strong> <?php echo $_GET["direccion"];;?></td>
 
     <td colspan="18" style="color:black;font-size:11px;border: 1px solid white;font-family: Helvetica, Arial, sans-serif;width: 18%"><strong>TELEFONO:</strong> <?php echo $_GET["telefono"];;?></td>
-    <td colspan="17" style="color:black;font-size:11px;border: 1px solid white;font-family: Helvetica, Arial, sans-serif;width: 17%"><strong>FECHA:</strong> <?php echo $hoy;?></td>
+    <td colspan="17" style="color:black;font-size:11px;border: 1px solid white;font-family: Helvetica, Arial, sans-serif;width: 17%"><strong>FECHA:</strong> <?php echo date("d-m-Y",strtotime($_GET["fecha"]));?></td>
 
 </tr>
 </table>

@@ -52,7 +52,7 @@ if(isset($_SESSION["usuario"])){
 
   <!-- The Modal -->
   <div class="modal" id="myModal">
-  <div class="modal-dialog" style="max-width: 70%;">
+  <div class="modal-dialog" style="max-width: 90%;">
     <div class="modal-content">
 
       <!-- Modal Header -->
@@ -66,12 +66,12 @@ if(isset($_SESSION["usuario"])){
 
         <div class="form-row">
 
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-4">
                 <label for="ex3">Cliente</label>
                 <input type="search"  class="form-control clear_input" name=""  id="cliente">
             </div>
 
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-4">
                 <label for="ex3">Dirección</label>
                 <input type="search"  class="form-control clear_input" name=""  id="dir">
             </div>
@@ -79,6 +79,11 @@ if(isset($_SESSION["usuario"])){
             <div class="form-group col-md-2">
                 <label for="ex3">Tel.</label>
                 <input type="search"  class="form-control clear_input" name=""  id="tel">
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="ex3">Fecha.</label>
+                <input type="date"  class="form-control clear_input" name=""  id="fecha_fac">
             </div>
         </div>
         
@@ -210,14 +215,15 @@ function sendDataFact(){
     let telefono = $("#tel").val();
     let direccion = $("#dir").val();
     let retencion = $("#retencion").val();
-    if(retencion==""){
+    let fecha = $("#fecha_fac").val()
+    if(retencion=="" || fecha==""){
         alert("Monto retencion es obligatorio"); return false;
     }
     
     let paciente = document.getElementById("cliente").value;
     data = Object.values(items_factura);
     //[window.location = ('imp_factura_manual.php?info='+ JSON.stringify(data));
-    window.open('imp_factura_manual.php?info='+ JSON.stringify(data)+"&cliente="+paciente+"&direccion="+direccion+"&telefono="+telefono+"&retencion="+retencion, '_blank');
+    window.open('imp_factura_manual.php?info='+ JSON.stringify(data)+"&cliente="+paciente+"&direccion="+direccion+"&telefono="+telefono+"&retencion="+retencion+"&fecha="+fecha, '_blank');
     location.reload();
 }
 

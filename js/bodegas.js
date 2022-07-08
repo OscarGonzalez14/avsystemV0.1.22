@@ -817,4 +817,36 @@ function get_correlativo_traslado(){
     })
 }
 
+function arosUbicarIndividual(id_producto,modelo,color,marca, materiales){
+  document.getElementById("marca-aro-indiv").innerHTML = marca;
+  document.getElementById("modelo-aro-indiv").innerHTML = modelo;
+  document.getElementById("color-aro-indiv").innerHTML = color;
+  document.getElementById("material-aro-indiv").innerHTML = materiales;
+  document.getElementById("id-envio-ind").value = id_producto;
+}
+
+function envioBodegaIndividual(){
+
+  let id_producto = document.getElementById("id-envio-ind").value;
+  let cantidad_ingreso = document.getElementById("cantidad_ind").value;
+  let precio_venta = document.getElementById("pventa_ind").value;
+  let ubicacion = document.getElementById("ubicacion_ind").value;
+  let usuario = document.getElementById("usuario").value;
+  let sucursal = document.getElementById("sucursal").value;
+
+  $.ajax({
+    url:"ajax/bodegas.php?op=ingresoIndividualBodega",
+    method:"POST",
+    data:{id_producto:id_producto,cantidad_ingreso:cantidad_ingreso,precio_venta:precio_venta,ubicacion:ubicacion,usuario:usuario,sucursal:sucursal},
+    cache:false,
+    dataType:"json",
+      success:function(data){
+      console.log(data);       
+            
+      }
+  })
+
+
+}
+
 init();

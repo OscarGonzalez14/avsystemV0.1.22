@@ -310,12 +310,67 @@ public function get_stock_categoria($ubicacion){
 }/////////////fin detalle traslado
 //////////////////////////////GT NUMERO TRASLADO
 public function get_numero_traslado($sucursal){
-  $conectar= parent::conexion();
+  $conectar = parent::conexion();
   $sql= "select num_traslado from traslados where sucursal=? order by id_traslado DESC limit 1;";
   $sql=$conectar->prepare($sql);
   $sql->bindValue(1, $sucursal);
   $sql->execute();
   return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+public function ingresoIndividual($id_producto,$cantidad_ingreso,$precio_venta,$ubicacion,$usuario,$sucursal){
+  $conectar = parent::conexion();
+  date_default_timezone_set('America/El_Salvador'); 
+  $hoy = date("d-m-Y");
+  $numero_compra = "001";
+
+  $sql="select stock from existencias where id_producto=? and bodega=? and categoria_ub=?;";
+  $sql=$conectar->prepare($sql);
+  $sql->bindValue(1,$id_producto);
+  $sql->bindValue(2,$sucursal);
+  $sql->bindValue(3,$ubicacion);
+  $sql->execute();
+  $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+  if(is_array($resultado)==true and count($resultado)>0){
+    foreach($resultado as $row){
+      $stock_prod = $row["stock"];
+  }
+  }else{
+    $stock_prod = 0;
+  }
+
+  $nuevo_stock = $stock_prod + $cantidad_ingreso;
+
+  if(is_array($resultado)==true and count($resultado)>0) {                     
+   
+  $sql4 = "update existencias set                      
+  stock=?
+  where 
+  id_producto=? and bodega=? and categoria_ub=?";
+  $sql4 = $conectar->prepare($sql4);
+  $sql4->bindValue(1,$nuevo_stock);
+  $sql4->bindValue(2,$id_producto);
+  $sql4->bindValue(3,$sucursal);
+  $sql4->bindValue(4,$ubicacion);
+  $sql4->execute();
+}else{
+$sql="insert into existencias values (null,?,?,?,?,?,?,?,?);";
+  $sql=$conectar->prepare($sql);
+  $sql->bindValue(1,$id_producto);
+  $sql->bindValue(2,$cantidad_ingreso);
+  $sql->bindValue(3,$sucursal);
+  $sql->bindValue(4,$ubicacion);
+  $sql->bindValue(5,$hoy);
+  $sql->bindValue(6,$usuario);
+  $sql->bindValue(7,$numero_compra);
+  $sql->bindValue(8,$precio_venta);
+  //$sql->bindValue(9,$precio_compra);       
+
+  $sql->execute();
+} //cierre la condicional
+
 }
 
 }

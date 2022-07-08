@@ -41,6 +41,10 @@ public function registrar_aro($marca_aros,$modelo_aro,$color_aro,$medidas_aro,$d
     $sql->bindValue(9, $descripcion);
     $sql->execute();
 
+    $last_id = $conectar->lastInsertId();
+    $msj = ["result"=>'yes',"last_id"=>$last_id];
+    echo json_encode($msj);
+
 }
 
 

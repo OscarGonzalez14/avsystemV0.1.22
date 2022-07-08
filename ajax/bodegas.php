@@ -176,4 +176,11 @@ case "registrar_traslado";
 $bodegas->agrega_detalle_traslado();
 break;
 
+
+case "ingresoIndividualBodega":
+
+  $bodegas->ingresoIndividual($_POST["id_producto"],$_POST["cantidad_ingreso"],$_POST["precio_venta"],$_POST["ubicacion"],$_POST["usuario"],$_POST["sucursal"]);
+
+  break;
+
 }

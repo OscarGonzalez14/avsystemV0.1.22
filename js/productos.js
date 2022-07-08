@@ -141,10 +141,9 @@ if(marca_aros != "" && modelo_aro != "" && color_aro != "" && medidas_aro != "" 
     cache: false,
     dataType:"json",
     success:function(data){
-      if(data=='error'){
-        Swal.fire('Producto ya Existe!','','error')
-        return false;
-      }else if (data=="ok") {
+      
+      
+      if(data.result=="yes") {
         Swal.fire('Se creado un nuevo aro!','','success')
         let obj = {
           marca_aros:marca_aros,
@@ -152,10 +151,14 @@ if(marca_aros != "" && modelo_aro != "" && color_aro != "" && medidas_aro != "" 
           color_aro:color_aro,
           medidas_aro:medidas_aro,
           diseno_aro:diseno_aro,
-          materiales_aro:materiales_aro
+          materiales_aro:materiales_aro,
+          id_producto: data.last_id
         }
         aros_creados.push(obj);
         ubicarArosInvidividual()
+      }else if(data.result=='not'){
+          Swal.fire('Producto ya Existe!','','error')
+          return false;
       }
 
     }
@@ -1389,7 +1392,6 @@ function listar_servicios_venta(){
 }
 
 function ubicarArosInvidividual(){
-  console.log("ok234")
   $("#ingreso-ind-temp").html("");
   var filas = '';
 
@@ -1401,7 +1403,7 @@ function ubicarArosInvidividual(){
     "<td>"+aros_creados[i].color_aro+"</td>"+
     "<td>"+aros_creados[i].materiales_aro+"</td>"+
     "<td>"+aros_creados[i].diseno_aro+"</td>"+    
-    "<td><button type='button' class='btn btn-edit btn-md edita_aro bg-light' style='text-align:center' onClick='arosUbicarIndividual('.$row['id_producto'].'\''.$row['modelo'].'\',\''.$row['color'].'\',\''.$row['marca'].'\');' data-toggle='modal' data-target='#ubicacion-ind' data-backdrop='static' data-keyboard='false'><i class='fas fa-box' aria-hidden='true' style='color:#006600'></i></button>'</td>"+
+    "<td><button type='button' class='btn btn-edit btn-md edita_aro bg-light' style='text-align:center' onClick='arosUbicarIndividual("+aros_creados[i].id_producto+","+'"'+aros_creados[i].modelo_aro+'"'+","+'"'+aros_creados[i].color_aro+'"'+","+'"'+aros_creados[i].marca_aros+'"'+","+'"'+aros_creados[i].materiales_aro+'"'+");' data-toggle='modal' data-target='#ubicacion-ind' data-backdrop='static' data-keyboard='false'><i class='fas fa-box' aria-hidden='true' style='color:#006600'></i></button>'</td>"+
     "</tr>";
   }
   
@@ -1463,5 +1465,7 @@ function dtTemplateCobros(table,route,...Args){
 
  
 }
+
+
 
 init();

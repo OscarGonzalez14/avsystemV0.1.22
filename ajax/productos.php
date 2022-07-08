@@ -13,64 +13,17 @@
     $datos = $productos->valida_existencia_aros($_POST["marca_aros"],$_POST["modelo_aro"],$_POST["color_aro"],$_POST["medidas_aro"],$_POST["diseno_aro"],$_POST["materiales_aro"],$_POST["cat_venta_aros"]);
 		if(is_array($datos)==true and count($datos)==0){
 		    $productos->registrar_aro($_POST["marca_aros"],$_POST["modelo_aro"],$_POST["color_aro"],$_POST["medidas_aro"],$_POST["diseno_aro"],$_POST["materiales_aro"],$_POST["cat_venta_aros"],$_POST["categoria_producto"]);
-        $messages[]="ok";
+    
     }else{
-      $errors[]="error";
+      $msj = ["result"=>'not'];
+      echo json_encode($msj);
     }
-
-    if (isset($messages)){
-     ?>
-       <?php
-         foreach ($messages as $message) {
-             echo json_encode($message);
-           }
-         ?>
-   <?php
- }
-    //mensaje error
-      if (isset($errors)){
-
-   ?>
-
-         <?php
-           foreach ($errors as $error) {
-               echo json_encode($error);
-             }
-           ?>
-   <?php
-   }
  break;
   
 case 'guardar_accesorios':
-//$datos = $productos->valida_existencia_acc($_POST["categoria"]);
-    //if(is_array($datos)==true and count($datos)==0){
+
   $productos->registrar_accesorios($_POST["tipo_accesorio"],$_POST["marca_accesorio"],$_POST["desc_accesorio"],$_POST["categoria"],$_POST["codigo"]);
- /* $messages[]="ok";
-}else{
-  $errors[]="error";
-}
 
-if (isset($messages)){
-     ?>
-       <?php
-         foreach ($messages as $message) {
-             echo json_encode($message);
-           }
-         ?>
-   <?php
- }
-    //mensaje error
-      if (isset($errors)){
-
-   ?>
-
-         <?php
-           foreach ($errors as $error) {
-               echo json_encode($error);
-             }
-           ?>
-   <?php
-   }*/
 break;
 
     case "listar_aros":

@@ -6,11 +6,16 @@ class Compras extends Conectar{
     
   	public function get_numero_compras(){
     	$conectar= parent::conexion();
-    	$sql= "select max(id_compra)+1 as n_compra from compras;";
+    	$sql= "select max(id_compra)+1 as n_compra from compras limit 1;";
     	$sql=$conectar->prepare($sql);
-    	//$sql->bindValue(1, $sucursal_correlativo);
     	$sql->execute();
-    	return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
+    	$resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($resultado as $row){
+            $correlativo = "C-".$row["n_compra"];
+        }
+        
+        return $correlativo;
     }
 
 public function get_lente_por_id($id_producto){
@@ -142,6 +147,10 @@ public function get_reporte_compra_admin($numero_compra){
     $sql->bindValue(1,$numero_compra);
     $sql->execute();
     return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function registraCompra(){
+    
 }
 
 }//FIN DE LA CLASE

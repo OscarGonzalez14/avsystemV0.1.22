@@ -87,9 +87,8 @@ require_once('modals/editar_aro.php');
         </div>
 
       </div><!--Form row-->
-
       </div>
-      <input type="text" id="id-envio-ind">
+      <input type="hidden" id="id-envio-ind">
       <div class="modal-footer">
         <button type="button" class="btn btn-primary btn-block" onClick="envioBodegaIndividual();"><i class="fas fa-dolly"></i> Enviar a bodega</button>
       </div>

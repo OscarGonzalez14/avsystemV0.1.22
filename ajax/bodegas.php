@@ -1,10 +1,11 @@
 <?php
 //conexion de la base de datos 
 require_once("../config/conexion.php");
-//llamo al modelo Pacientes
-require_once("../modelos/Bodegas.php");
-//llamo al modelo Pacientes  
+require_once("../modelos/Bodegas.php"); 
 $bodegas = new Bodegas();
+
+require_once("../modelos/Compras.php"); 
+$compras = new Compras();
 
 switch($_GET["op"]){
 ////////////////MODAL PARA INGRESAR EN BODEGAS/****
@@ -179,7 +180,10 @@ break;
 
 case "ingresoIndividualBodega":
 
-  $bodegas->ingresoIndividual($_POST["id_producto"],$_POST["cantidad_ingreso"],$_POST["precio_venta"],$_POST["ubicacion"],$_POST["usuario"],$_POST["sucursal"]);
+  $n_compra = $compras->get_numero_compras();
+  $n_ingreso = $bodegas->get_numero_ingreso();
+
+  $bodegas->ingresoIndividual($_POST["id_producto"],$_POST["cantidad_ingreso"],$_POST["precio_venta"],$_POST["ubicacion"],$_POST["usuario"],$_POST["sucursal"],$n_compra,$n_ingreso);
 
   break;
 

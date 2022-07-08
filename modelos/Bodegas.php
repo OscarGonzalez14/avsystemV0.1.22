@@ -6,12 +6,20 @@ require_once("../config/conexion.php");
 class Bodegas extends Conectar{
 
 public function get_numero_ingreso(){
+
     $conectar= parent::conexion();
-    $sql= "select max(id_ingresos)+1 as n_ingreso from ingresos;";
+    $sql= "select max(id_ingresos)+1 as n_ingreso from ingresos limit 1;";
     $sql=$conectar->prepare($sql);
     $sql->execute();
-    return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
+    $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach($resultado as $row){
+      $correlativo = "I-".$row["n_ingreso"];
+  }
+  
+  return $correlativo;
 }
+
 public function get_productos_ingresar($numero_compra){
 $conectar= parent::conexion();         
 /*$sql= "SELECT * FROM `detalle_compras` WHERE `numero_compra`=?;";*/
@@ -319,12 +327,11 @@ public function get_numero_traslado($sucursal){
 }
 
 
-public function ingresoIndividual($id_producto,$cantidad_ingreso,$precio_venta,$ubicacion,$usuario,$sucursal){
+public function ingresoIndividual($id_producto,$cantidad_ingreso,$precio_venta,$ubicacion,$usuario,$sucursal,$numero_compra,$numero_ingreso){
   $conectar = parent::conexion();
   date_default_timezone_set('America/El_Salvador'); 
   $hoy = date("d-m-Y");
-  $numero_compra = "001";
-
+  
   $sql="select stock from existencias where id_producto=? and bodega=? and categoria_ub=?;";
   $sql=$conectar->prepare($sql);
   $sql->bindValue(1,$id_producto);
@@ -345,10 +352,7 @@ public function ingresoIndividual($id_producto,$cantidad_ingreso,$precio_venta,$
 
   if(is_array($resultado)==true and count($resultado)>0) {                     
    
-  $sql4 = "update existencias set                      
-  stock=?
-  where 
-  id_producto=? and bodega=? and categoria_ub=?";
+  $sql4 = "update existencias set stock=? where id_producto=? and bodega=? and categoria_ub=?";
   $sql4 = $conectar->prepare($sql4);
   $sql4->bindValue(1,$nuevo_stock);
   $sql4->bindValue(2,$id_producto);
@@ -366,11 +370,36 @@ $sql="insert into existencias values (null,?,?,?,?,?,?,?,?);";
   $sql->bindValue(6,$usuario);
   $sql->bindValue(7,$numero_compra);
   $sql->bindValue(8,$precio_venta);
-  //$sql->bindValue(9,$precio_compra);       
-
   $sql->execute();
 } //cierre la condicional
 
+
+ 
+ $this->registraCompra($numero_compra,"-","Andres Vasquez","Contado","12",$hoy,"CCF","Oscar","200","1",$sucursal);
+ $msj = ["mensaje"=>"Registrado"];
+
+}
+
+public function registraCompra(){
+  $conectar= parent::conexion();
+  $sql2="insert into compras values(null,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+
+  $sql2=$conectar->prepare($sql2);
+  $sql2->bindValue(1,$n_compra);
+  $sql2->bindValue(2,$codigo_proveedor);
+  $sql2->bindValue(3,$proveedor_compra);
+  $sql2->bindValue(4,$tipo_compra);
+  $sql2->bindValue(5,$tipo_pago);
+  $sql2->bindValue(6,$plazo);
+  $sql2->bindValue(7,$fecha);    
+  $sql2->bindValue(8,$tipo_documento);
+  $sql2->bindValue(9,$documento);
+  $sql2->bindValue(10,$usuario);
+  $sql2->bindValue(11,$total_compra);
+  $sql2->bindValue(12,$estado);
+  $sql2->bindValue(13,$sucursal);
+
+  $sql2->execute();
 }
 
 }

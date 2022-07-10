@@ -841,15 +841,31 @@ function envioBodegaIndividual(){
     method:"POST",
     data:{id_producto:id_producto,cantidad_ingreso:cantidad_ingreso,precio_venta:precio_venta,ubicacion:ubicacion,usuario:usuario,sucursal:sucursal,costo_u:costo_u},
     cache:false,
-    //dataType:"json",
+      dataType:"json",
       success:function(data){
-      console.log(data);
-      aros_creados.splice(idx, 1);
-      ubicarArosInvidividual();    
+        console.log(data)
+        if(data.mensaje=="insertOk"){
+        $("#ubicacion-ind").modal("hide");
+        aros_creados.splice(idx, 1);
+        ubicarArosInvidividual(); 
+        Swal.fire('Ingresado a bodega','','success');
+        clear_inputs_inv();
+        $('#marca_aros').val(null).trigger('change');
+      }
+        
     }
   })
 
 
+}
+
+
+function clear_inputs_inv(){
+  let element = document.getElementsByClassName("clear_i");
+    for(i=0;i<element.length;i++){
+      let id_element = element[i].id;
+      document.getElementById(id_element).value = "";
+   }
 }
 
 init();

@@ -35,27 +35,27 @@
     <div class="form-group col-md-4 select2-purple">
        <label for="sel1">Seleccione marca:</label>
       <select class="form-control select2" name="" id="marca_aros" multiple="multiple"
-data-dropdown-css-class="select2-purple"></select>
+data-dropdown-css-class="select2-purple" clear_i></select>
     </div>
     
     <div class="form-group col-md-4">
       <label for="inputPassword4">Modelo</label>
-      <input type="text" class="form-control" id="modelo_aro" placeholder="Escriba el Modelo" required="" onkeyup="mayus(this);" >
+      <input type="text" class="form-control clear_i" id="modelo_aro" placeholder="Escriba el Modelo" required="" onkeyup="mayus(this);" >
     </div>
 
     <div class="form-group col-md-4">
       <label for="inputPassword4">Color</label>
-      <input type="text" class="form-control" id="color_aro" placeholder="Escriba el color" required="" onkeyup="mayus(this);" >
+      <input type="text" class="form-control clear_i" id="color_aro" placeholder="Escriba el color" required="" onkeyup="mayus(this);" >
     </div>
 
     <div class="form-group col-md-3">
       <label for="inputEmail4">Medidas</label>
-      <input type="text" class="form-control" id="medidas_aro" placeholder="Medidas" required="" onkeyup="mayus(this);" >
+      <input type="text" class="form-control clear_i" id="medidas_aro" placeholder="Medidas" required="" onkeyup="mayus(this);" >
     </div>
 
     <div class="form-group col-md-3">
       <label for="inputPassword4">Diseño</label>
-      <select class="form-control" id="diseno_aro" required="">
+      <select class="form-control clear_i" id="diseno_aro" required="">
         <option value="">Seleccionar Diseño</option>
         <option value="CERRADO">Cerrado</option>
         <option value="SEMI-AEREO">Semi Aereo</option>
@@ -65,7 +65,7 @@ data-dropdown-css-class="select2-purple"></select>
 
     <div class="form-group col-md-3">
       <label for="inputPassword4">Materiales</label>
-      <select class="form-control" id="materiales_aro" required="">
+      <select class="form-control clear_i" id="materiales_aro" required="">
         <option value="">Seleccionar Material</option>
         <option value="METAL">Metal</option>
         <option value="ACETATO">Acetato</option>
@@ -78,7 +78,8 @@ data-dropdown-css-class="select2-purple"></select>
 
     <div class="form-group col-md-3">
       <label for="exampleFormControlSelect2">Categoría</label>
-      <select id="cat_venta_aros" class="form-control" required="">
+      <select id="cat_venta_aros" class="form-control  clear_i" required="">
+        <option value=''>Seleccionar ...</option>
         <option value='BASICO'>Básico</option>
         <option value='INTERMEDIO'>Intermedio</option>
         <option value='PREMIUM'>Premium</option>

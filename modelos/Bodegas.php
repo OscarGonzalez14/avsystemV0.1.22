@@ -374,15 +374,20 @@ $sql="insert into existencias values (null,?,?,?,?,?,?,?,?);";
   $sql->execute();
 } //cierre la condicional
 
- $log = 0;
  $total_compra = $cantidad_ingreso * $costo_u;
  $compra = $this->registraCompra($numero_compra,"-","Andres Vasquez","Contado","Efectivo","12",$hoy,"CCF","12345",$usuario,$total_compra,"1",$sucursal);
- $this->registrarDetalleCompra($numero_compra,"-",$cantidad_ingreso,$costo_u,$precio_venta,$total_compra,"0",$usuario,$id_producto,$hoy,$cantidad_ingreso);
- $this->registrarIngreso($numero_ingreso,$usuario,$hoy,$sucursal);
- $this->registrarDetalleIngreso($id_producto,$cantidad_ingreso,$sucursal,$ubicacion,$hoy,$usuario,$numero_compra,$costo_u,$precio_venta,$numero_ingreso);
- //$msj = ["mensaje"=>$compra];
- echo $compra;
-}
+ $detCompra = $this->registrarDetalleCompra($numero_compra,"-",$cantidad_ingreso,$costo_u,$precio_venta,$total_compra,"0",$usuario,$id_producto,$hoy,$cantidad_ingreso);
+ $ingreso = $this->registrarIngreso($numero_ingreso,$usuario,$hoy,$sucursal);
+ $detIngreso = $this->registrarDetalleIngreso($id_producto,$cantidad_ingreso,$sucursal,$ubicacion,$hoy,$usuario,$numero_compra,$costo_u,$precio_venta,$numero_ingreso);
+
+  if($compra = "okCompra" and  $detCompra = "okDetCompra" and  $ingreso = "okIngreso" and $detIngreso = "okDetIngreso"){
+      $confirm = "insertOk";
+  }else{
+      $confirm = "errorInsert";
+  }
+   $msj = ["mensaje"=>$confirm];
+   echo json_encode($msj); 
+  }
 
 public function registraCompra($n_compra,$codigo_proveedor,$proveedor_compra,$tipo_compra,$tipo_pago,$plazo,$fecha,  $tipo_documento,$documento,$usuario,$total_compra,$estado,$sucursal){
   $conectar= parent::conexion();
@@ -403,8 +408,11 @@ public function registraCompra($n_compra,$codigo_proveedor,$proveedor_compra,$ti
   $sql2->bindValue(12,$estado);
   $sql2->bindValue(13,$sucursal);
   $sql2->execute();
-
-    echo "Ok compra";
+  
+  if($sql2->rowCount() > 0){
+    $response = "okCompra";
+  }
+   return $response;
 
 }
 
@@ -424,6 +432,10 @@ public function registrarDetalleCompra($n_compra,$descripcion,$cantidad,$precio_
   $sql->bindValue(10,$fecha);
   $sql->bindValue(11,$cantidad);
   $sql->execute();
+  if($sql->rowCount() > 0){
+    $response = "okDetCompra";
+  }
+   return $response;
 }
 
 public function registrarIngreso($numero_ingreso,$usuario,$hoy,$sucursal){
@@ -435,6 +447,11 @@ public function registrarIngreso($numero_ingreso,$usuario,$hoy,$sucursal){
   $sql12->bindValue(3,$hoy);
   $sql12->bindValue(4,$sucursal);
   $sql12->execute();
+
+  if($sql12->rowCount() > 0){
+    $response = "okIngreso";
+  }
+   return $response;
   
 }
 
@@ -451,8 +468,8 @@ public function registrarDetalleIngreso($id_producto,$cantidad_ingreso,$sucursal
     $descripcion = $r["marca"]." * ".$r["modelo"]." * ".$r["color"]." * ".$r["medidas"];
   }
 
-  $sql10="insert into detalle_ingresos values (null,?,?,?,?,?,?,?,?,?);";
-  $sql10=$conectar->prepare($sql10);
+  $sql10 = "insert into detalle_ingresos values (null,?,?,?,?,?,?,?,?,?);";
+  $sql10 = $conectar->prepare($sql10);
   $sql10->bindValue(1,$descripcion);
   $sql10->bindValue(2,$cantidad_ingreso);
   $sql10->bindValue(3,$sucursal);
@@ -463,6 +480,11 @@ public function registrarDetalleIngreso($id_producto,$cantidad_ingreso,$sucursal
   $sql10->bindValue(8,$precio_venta);
   $sql10->bindValue(9,$numero_ingreso);
   $sql10->execute();
+
+  if($sql10->rowCount() > 0){
+    $response = "okDetIngreso";
+  }  
+  return $response;
 }
 
 }

@@ -64,7 +64,7 @@ require_once('modals/editar_aro.php');
 
         <div class="form-group col-md-6">
             <label for="ubicacion">Ubicacion</label>
-            <select name="" id="ubicacion_ind" class="form-control">
+            <select name="" id="ubicacion_ind" class="form-control clear_i">
                 <option value="">Seleccionar ....</option>
                 <option value="Gaveta 1">Gaveta 1</option>
                 <option value="Gaveta 2">Gaveta 2</option>
@@ -74,17 +74,17 @@ require_once('modals/editar_aro.php');
 
         <div class="form-group col-md-6">
             <label for="ubicacion">Cantidad</label>
-            <input type="number" class="form-control" id="cantidad_ind">
+            <input type="number" class="form-control clear_i" id="cantidad_ind">
         </div>
 
         <div class="form-group col-md-6">
             <label for="ubicacion">$ Costo unitario</label>
-            <input type="number" class="form-control" id="costo_ind_unit">
+            <input type="number" class="form-control clear_i" id="costo_ind_unit">
         </div>
 
         <div class="form-group col-md-6">
-            <label for="ubicacion">Precio venta</label>
-            <input type="number" class="form-control" id="pventa_ind">
+            <label for="ubicacion">P. venta(Unidad)</label>
+            <input type="number" class="form-control clear_i" id="pventa_ind">
         </div>
 
       </div><!--Form row-->

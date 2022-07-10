@@ -155,7 +155,9 @@ if(marca_aros != "" && modelo_aro != "" && color_aro != "" && medidas_aro != "" 
           id_producto: data.last_id
         }
         aros_creados.push(obj);
-        ubicarArosInvidividual()
+        ubicarArosInvidividual();
+        clear_inputs_inv();
+        $('#marca_aros').val(null).trigger('change');
       }else if(data.result=='not'){
           Swal.fire('Producto ya Existe!','','error')
           return false;

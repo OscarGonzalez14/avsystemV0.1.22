@@ -1403,7 +1403,7 @@ function ubicarArosInvidividual(){
     "<td>"+aros_creados[i].color_aro+"</td>"+
     "<td>"+aros_creados[i].materiales_aro+"</td>"+
     "<td>"+aros_creados[i].diseno_aro+"</td>"+    
-    "<td><button type='button' class='btn btn-edit btn-md edita_aro bg-light' style='text-align:center' onClick='arosUbicarIndividual("+aros_creados[i].id_producto+","+'"'+aros_creados[i].modelo_aro+'"'+","+'"'+aros_creados[i].color_aro+'"'+","+'"'+aros_creados[i].marca_aros+'"'+","+'"'+aros_creados[i].materiales_aro+'"'+");' data-toggle='modal' data-target='#ubicacion-ind' data-backdrop='static' data-keyboard='false'><i class='fas fa-box' aria-hidden='true' style='color:#006600'></i></button>'</td>"+
+    "<td><button type='button' class='btn btn-edit btn-md edita_aro bg-light' style='text-align:center' onClick='arosUbicarIndividual("+i+","+aros_creados[i].id_producto+","+'"'+aros_creados[i].modelo_aro+'"'+","+'"'+aros_creados[i].color_aro+'"'+","+'"'+aros_creados[i].marca_aros+'"'+","+'"'+aros_creados[i].materiales_aro+'"'+");' data-toggle='modal' data-target='#ubicacion-ind' data-backdrop='static' data-keyboard='false'><i class='fas fa-box' aria-hidden='true' style='color:#006600'></i></button>'</td>"+
     "</tr>";
   }
   

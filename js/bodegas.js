@@ -817,12 +817,13 @@ function get_correlativo_traslado(){
     })
 }
 
-function arosUbicarIndividual(id_producto,modelo,color,marca, materiales){
+function arosUbicarIndividual(idx,id_producto,modelo,color,marca, materiales){
   document.getElementById("marca-aro-indiv").innerHTML = marca;
   document.getElementById("modelo-aro-indiv").innerHTML = modelo;
   document.getElementById("color-aro-indiv").innerHTML = color;
   document.getElementById("material-aro-indiv").innerHTML = materiales;
   document.getElementById("id-envio-ind").value = id_producto;
+  document.getElementById("idx-prod").value = idx;
 }
 
 function envioBodegaIndividual(){
@@ -833,17 +834,19 @@ function envioBodegaIndividual(){
   let ubicacion = document.getElementById("ubicacion_ind").value;
   let usuario = document.getElementById("usuario").value;
   let sucursal = document.getElementById("sucursal").value;
-
+  let costo_u = document.getElementById("costo_ind_unit").value;
+  let idx = document.getElementById("idx-prod").value;
   $.ajax({
     url:"ajax/bodegas.php?op=ingresoIndividualBodega",
     method:"POST",
-    data:{id_producto:id_producto,cantidad_ingreso:cantidad_ingreso,precio_venta:precio_venta,ubicacion:ubicacion,usuario:usuario,sucursal:sucursal},
+    data:{id_producto:id_producto,cantidad_ingreso:cantidad_ingreso,precio_venta:precio_venta,ubicacion:ubicacion,usuario:usuario,sucursal:sucursal,costo_u:costo_u},
     cache:false,
-    dataType:"json",
+    //dataType:"json",
       success:function(data){
-      console.log(data);       
-            
-      }
+      console.log(data);
+      aros_creados.splice(idx, 1);
+      ubicarArosInvidividual();    
+    }
   })
 
 

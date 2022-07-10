@@ -149,8 +149,6 @@ public function get_reporte_compra_admin($numero_compra){
     return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 }
 
-public function registraCompra(){
-    
-}
+
 
 }//FIN DE LA CLASE

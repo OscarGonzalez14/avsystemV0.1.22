@@ -327,16 +327,17 @@ public function get_numero_traslado($sucursal){
 }
 
 
-public function ingresoIndividual($id_producto,$cantidad_ingreso,$precio_venta,$ubicacion,$usuario,$sucursal,$numero_compra,$numero_ingreso){
+public function ingresoIndividual($id_producto,$cantidad_ingreso,$precio_venta,$ubicacion,$usuario,$sucursal,$numero_compra,$numero_ingreso,$costo_u){
   $conectar = parent::conexion();
   date_default_timezone_set('America/El_Salvador'); 
-  $hoy = date("d-m-Y");
+  $hoy = date("d-m-Y H:i:s");
   
-  $sql="select stock from existencias where id_producto=? and bodega=? and categoria_ub=?;";
+  $sql="select stock from existencias where id_producto=? and bodega=? and categoria_ub=? and num_compra=?;";
   $sql=$conectar->prepare($sql);
   $sql->bindValue(1,$id_producto);
   $sql->bindValue(2,$sucursal);
   $sql->bindValue(3,$ubicacion);
+  $sql->bindValue(4,$numero_compra);
   $sql->execute();
   $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 
@@ -373,14 +374,17 @@ $sql="insert into existencias values (null,?,?,?,?,?,?,?,?);";
   $sql->execute();
 } //cierre la condicional
 
-
- 
- $this->registraCompra($numero_compra,"-","Andres Vasquez","Contado","12",$hoy,"CCF","Oscar","200","1",$sucursal);
- $msj = ["mensaje"=>"Registrado"];
-
+ $log = 0;
+ $total_compra = $cantidad_ingreso * $costo_u;
+ $compra = $this->registraCompra($numero_compra,"-","Andres Vasquez","Contado","Efectivo","12",$hoy,"CCF","12345",$usuario,$total_compra,"1",$sucursal);
+ $this->registrarDetalleCompra($numero_compra,"-",$cantidad_ingreso,$costo_u,$precio_venta,$total_compra,"0",$usuario,$id_producto,$hoy,$cantidad_ingreso);
+ $this->registrarIngreso($numero_ingreso,$usuario,$hoy,$sucursal);
+ $this->registrarDetalleIngreso($id_producto,$cantidad_ingreso,$sucursal,$ubicacion,$hoy,$usuario,$numero_compra,$costo_u,$precio_venta,$numero_ingreso);
+ //$msj = ["mensaje"=>$compra];
+ echo $compra;
 }
 
-public function registraCompra(){
+public function registraCompra($n_compra,$codigo_proveedor,$proveedor_compra,$tipo_compra,$tipo_pago,$plazo,$fecha,  $tipo_documento,$documento,$usuario,$total_compra,$estado,$sucursal){
   $conectar= parent::conexion();
   $sql2="insert into compras values(null,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
@@ -398,8 +402,67 @@ public function registraCompra(){
   $sql2->bindValue(11,$total_compra);
   $sql2->bindValue(12,$estado);
   $sql2->bindValue(13,$sucursal);
-
   $sql2->execute();
+
+    echo "Ok compra";
+
+}
+
+public function registrarDetalleCompra($n_compra,$descripcion,$cantidad,$precio_compra,$precio_venta,$subtotal,$estado,$usuario,$codProd,$fecha){
+  $conectar= parent::conexion();
+  $sql="insert into detalle_compras values(null,?,?,?,?,?,?,?,?,?,?,?);";
+  $sql=$conectar->prepare($sql);
+  $sql->bindValue(1,$n_compra);
+  $sql->bindValue(2,$descripcion);
+  $sql->bindValue(3,$cantidad);
+  $sql->bindValue(4,$precio_compra);
+  $sql->bindValue(5,$precio_venta);
+  $sql->bindValue(6,$subtotal);
+  $sql->bindValue(7,$estado);
+  $sql->bindValue(8,$usuario);
+  $sql->bindValue(9,$codProd);
+  $sql->bindValue(10,$fecha);
+  $sql->bindValue(11,$cantidad);
+  $sql->execute();
+}
+
+public function registrarIngreso($numero_ingreso,$usuario,$hoy,$sucursal){
+  $conectar= parent::conexion();
+  $sql12="insert into ingresos values (null,?,?,?,?);";
+  $sql12=$conectar->prepare($sql12);
+  $sql12->bindValue(1,$numero_ingreso);
+  $sql12->bindValue(2,$usuario);
+  $sql12->bindValue(3,$hoy);
+  $sql12->bindValue(4,$sucursal);
+  $sql12->execute();
+  
+}
+
+public function registrarDetalleIngreso($id_producto,$cantidad_ingreso,$sucursal,$ubicacion,$hoy,$usuario,$numero_compra,$precio_compra,$precio_venta,$numero_ingreso){
+  $conectar= parent::conexion();
+
+  $sql = "select*from productos where id_producto=?;";
+  $sql=$conectar->prepare($sql);
+  $sql->bindValue(1,$id_producto);
+  $sql->execute();
+  $result =$sql->fetchAll(PDO::FETCH_ASSOC);
+
+  foreach($result as $r){
+    $descripcion = $r["marca"]." * ".$r["modelo"]." * ".$r["color"]." * ".$r["medidas"];
+  }
+
+  $sql10="insert into detalle_ingresos values (null,?,?,?,?,?,?,?,?,?);";
+  $sql10=$conectar->prepare($sql10);
+  $sql10->bindValue(1,$descripcion);
+  $sql10->bindValue(2,$cantidad_ingreso);
+  $sql10->bindValue(3,$sucursal);
+  $sql10->bindValue(4,$ubicacion);
+  $sql10->bindValue(5,$usuario);
+  $sql10->bindValue(6,$hoy);
+  $sql10->bindValue(7,$numero_compra);
+  $sql10->bindValue(8,$precio_venta);
+  $sql10->bindValue(9,$numero_ingreso);
+  $sql10->execute();
 }
 
 }

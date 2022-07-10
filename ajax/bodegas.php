@@ -183,7 +183,7 @@ case "ingresoIndividualBodega":
   $n_compra = $compras->get_numero_compras();
   $n_ingreso = $bodegas->get_numero_ingreso();
 
-  $bodegas->ingresoIndividual($_POST["id_producto"],$_POST["cantidad_ingreso"],$_POST["precio_venta"],$_POST["ubicacion"],$_POST["usuario"],$_POST["sucursal"],$n_compra,$n_ingreso);
+  $bodegas->ingresoIndividual($_POST["id_producto"],$_POST["cantidad_ingreso"],$_POST["precio_venta"],$_POST["ubicacion"],$_POST["usuario"],$_POST["sucursal"],$n_compra,$n_ingreso,$_POST["costo_u"]);
 
   break;
 

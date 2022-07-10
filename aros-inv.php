@@ -65,9 +65,10 @@ require_once('modals/editar_aro.php');
         <div class="form-group col-md-6">
             <label for="ubicacion">Ubicacion</label>
             <select name="" id="ubicacion_ind" class="form-control">
-                <option value="">Gaveta 1</option>
-                <option value="">Gaveta 2</option>
-                <option value="">Gaveta 3</option>
+                <option value="">Seleccionar ....</option>
+                <option value="Gaveta 1">Gaveta 1</option>
+                <option value="Gaveta 2">Gaveta 2</option>
+                <option value="Gaveta 3">Gaveta 3</option>
             </select>
        </div>
 
@@ -77,8 +78,8 @@ require_once('modals/editar_aro.php');
         </div>
 
         <div class="form-group col-md-6">
-            <label for="ubicacion">$ Costo</label>
-            <input type="number" class="form-control" id="costo_ind_ind">
+            <label for="ubicacion">$ Costo unitario</label>
+            <input type="number" class="form-control" id="costo_ind_unit">
         </div>
 
         <div class="form-group col-md-6">
@@ -99,6 +100,7 @@ require_once('modals/editar_aro.php');
 
 <input type="hidden" id="usuario" value="<?php echo $_SESSION["usuario"];?>">
 <input type="hidden" id="sucursal" value="<?php echo $_SESSION["sucursal"];?>">
+<input type="hidden" id="idx-prod">
 
 
 

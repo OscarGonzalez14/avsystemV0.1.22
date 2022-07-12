@@ -2,9 +2,10 @@
 require_once("config/conexion.php");
 if(isset($_SESSION["usuario"])){
 require_once('header_dos.php');
+require_once('modals/modal_ingreso_bodega.php');
 require_once('modals/nuevo_aro.php');
 require_once('modals/nueva_marca.php');
-require_once('modals/editar_aro.php');
+//require_once('modals/editar_aro.php');
 ?>
 <div class="content-wrapper" >
 <!--$('[name="country-of-operation-edit[]"]').val()-->
@@ -123,6 +124,8 @@ require_once('modals/editar_aro.php');
     $(".select2").select2({
         maximumSelectionLength: 1
     });
+
+   $('#lista-aros-sel').bootstrapDualListbox()
   
     })
 

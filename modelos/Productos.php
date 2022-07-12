@@ -89,7 +89,7 @@ public function get_aros(){
     //$sql->bindValue(1, $sucursal_correlativo);
     $sql->execute();
     return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
-    }
+}
 
 //////LISTAR AROS EN COMPRAS
 public function get_acc_compras(){

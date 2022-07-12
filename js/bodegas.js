@@ -858,6 +858,20 @@ function envioBodegaIndividual(){
 
 
 }
+var aros_bodega = [];
+$('#aros-list').on('select2:select', function (e) {
+  let data = e.params.data;
+  let id_producto = data.id;
+  let descripcion = data.text;
+  console.log(`id ${id_producto} desc  ${descripcion}`)
+let obj = {
+  id_producto : id_producto,
+  descripcion : descripcion
+}
+aros_bodega.push(obj)
+console.log(aros_bodega)
+
+});
 
 
 function clear_inputs_inv(){
@@ -866,6 +880,26 @@ function clear_inputs_inv(){
       let id_element = element[i].id;
       document.getElementById(id_element).value = "";
    }
+}
+
+var aros_bodega = [];
+function listarArosIngresoMultiple(){
+
+  $("#aros-list").select2({
+    maximumSelectionLength: 1
+});
+
+  $.ajax({
+		url:"ajax/bodegas.php?op=listar_aros_bodega",
+      	method:"POST",
+      	cache:false,
+      	dataType:"json",
+      	success:function(data){
+          $("#aros-list").select2({
+            data: data
+          })
+        }
+	}); 
 }
 
 init();

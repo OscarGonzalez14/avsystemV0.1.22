@@ -187,4 +187,16 @@ case "ingresoIndividualBodega":
 
   break;
 
+  case 'listar_aros_bodega':
+    require_once '../modelos/Productos.php';
+    $productos = new Productos();
+
+    $aros = $productos->get_aros();
+    $lista_aros = Array();
+    foreach($aros as $a){
+      array_push($lista_aros,array('id'=>$a["id_producto"],'text'=>$a["modelo"]." ".$a["marca"]));
+    }
+    echo json_encode($lista_aros);   
+    break;
+
 }

@@ -194,7 +194,7 @@ case "ingresoIndividualBodega":
     $aros = $productos->get_aros();
     $lista_aros = Array();
     foreach($aros as $a){
-      array_push($lista_aros,array('id'=>$a["id_producto"],'text'=>$a["modelo"]." ".$a["marca"]));
+      array_push($lista_aros,array('id'=>$a["id_producto"],'text'=>"Mod.:".$a["modelo"]." ".$a["marca"]." C.:".$a["color"]." Med.:".$a["medidas"]));
     }
     echo json_encode($lista_aros);   
     break;

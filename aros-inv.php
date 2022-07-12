@@ -135,6 +135,11 @@ require_once('modals/nueva_marca.php');
         }
     }
     window.onkeydown = EnterEvent;
+    var medidas = new Cleave('#medidas_aro', {
+    delimiter: '-',
+    blocks: [2,2,3],
+    uppercase: true
+});
 </script>
 <?php } else{
   echo "Acceso no permitido";

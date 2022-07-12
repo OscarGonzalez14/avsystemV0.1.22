@@ -27,7 +27,7 @@
         <button type="button" class="btn btn-sm btn-outline-secondary btn-flat" data-toggle="modal" data-target="#nuevo_aro" data-backdrop="static" data-keyboard="false" onClick="cargar_marca()"><i class="fas fa-plus"></i> Nuevo Aro</button>
 
         <div class="row">
-          <div class="col-sm-3 select2-primary">
+          <div class="col-sm-5 select2-primary">
             <label for="sel1">Seleccionar aro:</label>
             <select class="form-control select2" name="" id="aros-list" multiple="multiple"
                  data-dropdown-css-class="select2-purple" clear_i></select>
@@ -39,6 +39,21 @@
 
           </div>
         </div>
+        <br>
+        <table width="100%" class="table-hover table-bordered">
+        <thead style="color:white;font-family: Helvetica, Arial, sans-serif;font-size: 13px;text-align: center" class='bg-info'>
+          <tr>
+          <th style="width:5%">#</th>
+          <th style="width:10%"><input type="checkbox" id="select-all-bod-chk" class="form-check-label" onClick="selectOrdenesEnviar(this.id)"> Selecc.</label></th>
+          <th style="width:55%">Descripcion</th>
+          <th style="width:10%">Cantidad</th>
+          <th style="width:10%">Ubicar</th>
+          <th style="width:10%">Quitar</th>
+          </tr>
+        </thead>
+        <tbody style="font-family: Helvetica, Arial, sans-serif;font-size: 11px;text-align: center;" id="ingreso-grupal-temp">                                  
+        </tbody>
+        </table>
         <!--SELECT MULTIPLE
                 <div class="form-group">
                   <label>Seleccionar aros</label>

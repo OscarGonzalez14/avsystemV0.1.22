@@ -26,6 +26,7 @@
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- date-range-picker -->
 <script src="plugins/moment/moment.min.js"></script>
+<script src="js/cleave.js"></script>
 <script src="plugins/daterangepicker/daterangepicker.js"></script>
 <script src="plugins/select2/js/select2.full.min.js"></script>
 <script src="plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.js"></script>

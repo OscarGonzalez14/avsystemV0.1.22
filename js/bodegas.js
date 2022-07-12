@@ -866,13 +866,89 @@ $('#aros-list').on('select2:select', function (e) {
   console.log(`id ${id_producto} desc  ${descripcion}`)
 let obj = {
   id_producto : id_producto,
-  descripcion : descripcion
+  descripcion : descripcion,
+  cantidad : 1
 }
 aros_bodega.push(obj)
-console.log(aros_bodega)
-
+$('#aros-list').val(null).trigger('change');
+listarArosUbicarBodega();
 });
 
+function listarArosUbicarBodega(){
+  $("#ingreso-grupal-temp").html("");
+  var filas = '';  
+  let length_array = parseInt(aros_bodega.length)-1;
+  for(let i=length_array;i>=0;i--){
+    filas = filas +    
+    "<tr style='text-align:center' id='item_t"+i+"'>"+
+    "<td style='width:5%'>"+(i+1)+"</td>"+
+    "<td style='width:10%'>"+"<input type='checkbox' class='form-check-input ubicar-bodega' value="+i +"  id="+"prodchk"+i+" onClick='agregarItemBodega(this.id)'>"+ "Sel."+"</td>"+
+    "<td style='width:55%'>"+aros_bodega[i].descripcion+"</td>"+
+    "<td style='width:10%'><input type='text' class='form-control' id="+"cant-item"+i+" style='text-align:center' data-idproducto="+aros_bodega[i].id_producto+" value="+aros_bodega[i].cantidad+" onkeyup='setCantidadProd(event, this, "+(i)+");'></td>"+
+    "<td style='width:10%'>"+"<button type='button'  class='btn btn-sm btn-primary' onClick='detOrdenes("+'"'+aros_bodega[i].id_producto+'"'+")'><i class='fa fa-dolly' aria-hidden='true' style='color:white'></i></button>"+"</td>"+
+    "<td style='width:10%'>"+"<button type='button'  class='btn btn-sm bg-light' onClick='eliminarItemProd("+i+")'><i class='fa fa-times-circle' aria-hidden='true' style='color:red'></i></button>"+"</td>"+
+    "</tr>";
+    
+  }
+ 
+  $("#ingreso-grupal-temp").html(filas);
+  maxIndex = aros_bodega.length - 1;
+  let id_item = 'cant-item'+aros_bodega[maxIndex].id_producto;
+  $('#'+id_item).focus();
+ // document.getElementById(id_item).focus();
+  
+
+}
+
+function setCantidadProd(event, obj, idx){
+  event.preventDefault();
+  aros_bodega[idx].cantidad = parseInt(obj.value);
+  listarArosUbicarBodega();
+}
+
+function agregarItemBodega(idx){
+  let valItem = document.getElementById(idx).value;
+  let cantidad = document.getElementById("cant-item"+valItem).value;
+  console.log(cantidad);
+}
+
+function selectOrdenesEnviar(idy){
+  let items_prod = document.getElementsByClassName('ubicar-bodega');
+  let checkbox = document.getElementById(idy);
+  let check_state = checkbox.checked;
+  if(check_state){
+
+    for (var i = 0; i < items_prod.length; i++) {
+    let idItem= items_prod[i].value;
+    console.log(idItem)
+    let dataInput = document.getElementById("cant-item"+idItem);
+    console.log(dataInput)
+    let idProd = dataInput.dataset.idproducto;
+    let cantidad = document.getElementById("cant-item"+idItem).value;
+
+
+    console.log(idProd);
+    console.log(cantidad);
+
+
+    /*let items_ingresos = {
+      n_orden : items[1],
+      paciente: items[2],
+      fecha : items[0]
+    }
+    items_barcode.push(items_ingresos);
+    document.getElementById(items_barcode_selected[i].id).checked = true;*/
+
+  }
+
+  }else{
+    console.log("Vaciar array")
+    /*items_barcode = [];
+    for (var i = 0; i < items_barcode_selected.length; i++) {
+      document.getElementById(items_barcode_selected[i].id).checked = false;
+    }*/
+  }
+}
 
 function clear_inputs_inv(){
   let element = document.getElementsByClassName("clear_i");
@@ -884,7 +960,6 @@ function clear_inputs_inv(){
 
 var aros_bodega = [];
 function listarArosIngresoMultiple(){
-
   $("#aros-list").select2({
     maximumSelectionLength: 1
 });

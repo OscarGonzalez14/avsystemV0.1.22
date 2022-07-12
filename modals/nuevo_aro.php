@@ -50,7 +50,7 @@ data-dropdown-css-class="select2-purple" clear_i></select>
 
     <div class="form-group col-md-3">
       <label for="inputEmail4">Medidas</label>
-      <input type="text" class="form-control clear_i" id="medidas_aro" placeholder="Medidas" required="" onkeyup="mayus(this);" >
+      <input type="text" class="form-control clear_i" id="medidas_aro" placeholder="Medidas" required="">
     </div>
 
     <div class="form-group col-md-3">

@@ -867,7 +867,8 @@ $('#aros-list').on('select2:select', function (e) {
 let obj = {
   id_producto : id_producto,
   descripcion : descripcion,
-  cantidad : 1
+  cantidad : 1,
+  costo: 0,pventa:0
 }
 aros_bodega.push(obj)
 $('#aros-list').val(null).trigger('change');
@@ -883,27 +884,42 @@ function listarArosUbicarBodega(){
     "<tr style='text-align:center' id='item_t"+i+"'>"+
     "<td style='width:5%'>"+(i+1)+"</td>"+
     "<td style='width:10%'>"+"<input type='checkbox' class='form-check-input ubicar-bodega' value="+i +"  id="+"prodchk"+i+" onClick='agregarItemBodega(this.id)'>"+ "Sel."+"</td>"+
-    "<td style='width:55%'>"+aros_bodega[i].descripcion+"</td>"+
-    "<td style='width:10%'><input type='text' class='form-control' id="+"cant-item"+i+" style='text-align:center' data-idproducto="+aros_bodega[i].id_producto+" value="+aros_bodega[i].cantidad+" onkeyup='setCantidadProd(event, this, "+(i)+");'></td>"+
-    "<td style='width:10%'>"+"<button type='button'  class='btn btn-sm btn-primary' onClick='detOrdenes("+'"'+aros_bodega[i].id_producto+'"'+")'><i class='fa fa-dolly' aria-hidden='true' style='color:white'></i></button>"+"</td>"+
-    "<td style='width:10%'>"+"<button type='button'  class='btn btn-sm bg-light' onClick='eliminarItemProd("+i+")'><i class='fa fa-times-circle' aria-hidden='true' style='color:red'></i></button>"+"</td>"+
+    "<td style='width:45%'>"+aros_bodega[i].descripcion+"</td>"+
+    "<td style='width:8%'><input type='number' class='form-control next-input' id="+"costo-item"+i+" data-idproducto="+aros_bodega[i].id_producto+" value="+aros_bodega[i].costo+" onchange='setCostodProd("+(i)+");'></td>"+
+    "<td style='width:8%'><input type='number' class='form-control next-input' id="+"pventa-item"+i+" data-idproducto="+aros_bodega[i].id_producto+" value="+aros_bodega[i].pventa+" onchange='setpVentaProd("+(i)+");'></td>"+
+    "<td style='width:8%'><input type='number' class='form-control next-input' id="+"cant-item"+i+" data-idproducto="+aros_bodega[i].id_producto+" value="+aros_bodega[i].cantidad+" onchange='setCantidadProd("+(i)+");'></td>"+
+    "<td style='width:8%'>"+"<button type='button'  class='btn btn-sm btn-primary' onClick='detOrdenes("+'"'+aros_bodega[i].id_producto+'"'+")'><i class='fa fa-dolly' aria-hidden='true' style='color:white'></i></button>"+"</td>"+
+    "<td style='width:8%'>"+"<button type='button'  class='btn btn-sm bg-light' onClick='eliminarItemProd("+i+")'><i class='fa fa-times-circle' aria-hidden='true' style='color:red'></i></button>"+"</td>"+
     "</tr>";
     
   }
  
   $("#ingreso-grupal-temp").html(filas);
   maxIndex = aros_bodega.length - 1;
-  let id_item = 'cant-item'+aros_bodega[maxIndex].id_producto;
+  let id_item = 'costo-item'+maxIndex;
   $('#'+id_item).focus();
+  $('#'+id_item).select();
  // document.getElementById(id_item).focus();
   
 
 }
 
-function setCantidadProd(event, obj, idx){
-  event.preventDefault();
-  aros_bodega[idx].cantidad = parseInt(obj.value);
-  listarArosUbicarBodega();
+function setCantidadProd(idx){
+  let cantidad = document.getElementById("cant-item"+idx).value;
+  aros_bodega[idx].cantidad = cantidad;
+  //listarArosUbicarBodega();
+}
+
+function setCostodProd(idx){
+  let costo = document.getElementById("costo-item"+idx).value;
+  aros_bodega[idx].costo = costo;
+  //listarArosUbicarBodega();
+}
+
+function setpVentaProd(idx){
+  let pventa = document.getElementById("pventa-item"+idx).value;
+  aros_bodega[idx].pventa = pventa;
+  //listarArosUbicarBodega();
 }
 
 function agregarItemBodega(idx){
@@ -919,34 +935,17 @@ function selectOrdenesEnviar(idy){
   if(check_state){
 
     for (var i = 0; i < items_prod.length; i++) {
-    let idItem= items_prod[i].value;
-    console.log(idItem)
-    let dataInput = document.getElementById("cant-item"+idItem);
-    console.log(dataInput)
-    let idProd = dataInput.dataset.idproducto;
-    let cantidad = document.getElementById("cant-item"+idItem).value;
-
-
-    console.log(idProd);
-    console.log(cantidad);
-
-
-    /*let items_ingresos = {
-      n_orden : items[1],
-      paciente: items[2],
-      fecha : items[0]
-    }
-    items_barcode.push(items_ingresos);
-    document.getElementById(items_barcode_selected[i].id).checked = true;*/
+    let id = items_prod[i].id;
+    document.getElementById(id).checked = true
 
   }
 
   }else{
-    console.log("Vaciar array")
-    /*items_barcode = [];
-    for (var i = 0; i < items_barcode_selected.length; i++) {
-      document.getElementById(items_barcode_selected[i].id).checked = false;
-    }*/
+    for (var i = 0; i < items_prod.length; i++) {
+      let id = items_prod[i].id;
+      document.getElementById(id).checked = false
+  
+    }
   }
 }
 
@@ -975,6 +974,31 @@ function listarArosIngresoMultiple(){
           })
         }
 	}); 
+}
+var itemsSelectGrupal = []
+function agregarStockGrupal(){
+  itemsSelectGrupal = [];
+  let items_prod = document.getElementsByClassName('ubicar-bodega');
+  console.log(items_prod)
+  for (var i = 0; i < items_prod.length; i++) {
+    let id = items_prod[i].id;
+    let checkbox = document.getElementById(id);
+    let check_state = checkbox.checked;
+    if(check_state){
+      let idy = document.getElementById(checkbox.id).value;
+      let productos = {
+        idProd : aros_bodega[idy].id_producto,
+        descripcion : aros_bodega[idy].descripcion,
+        cantidad: aros_bodega[idy].cantidad,
+        costo: aros_bodega[idy].costo,
+        pventa: aros_bodega[idy].pventa
+      }
+      itemsSelectGrupal.push(productos)
+    }
+
+  }
+  console.log(itemsSelectGrupal)
+
 }
 
 init();

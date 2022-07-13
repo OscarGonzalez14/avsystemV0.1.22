@@ -113,8 +113,9 @@ require_once("modals/modal_correlativo_factura.php");
             <th style='text-align: center;'>Inicio Crédito</th>
             <th style='text-align: center;'>Finalización Crédito</th>
             <th style='text-align: center;'>Plazo</th>
-            <th style='text-align: center;'>Monto</th> 
             <th style='text-align: center;'>Cuota</th>
+            <th style='text-align: center;'>Monto</th> 
+            <th style='text-align: center;'>Cobrado</th>
             <th style='text-align: center;'>Saldo</th>
             <th style='text-align: center;'>Acciones</th>
           </tr>

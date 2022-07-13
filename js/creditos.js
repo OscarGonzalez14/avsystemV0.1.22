@@ -4,10 +4,9 @@ function init(){
   listar_ordenes_pendientes_cauto();
 	listar_creditos_sucursal();
   listar_creditos_cauto();
-  //listar_ordenes_pendientes();
   listar_oid_aprobadas();
-   listar_cautos_aprob();
-   filtrar_creditos();    
+  listar_cautos_aprob();
+  filtrar_creditos();    
   
 }
 ///////////OCULTAR ELEMENTOS AL INICIO
@@ -26,8 +25,9 @@ $(document).on('click', '.ocultar_btns_oid', function(){
 
 ////////////////LISTAR CREDITOS DE CONTADO
 function listar_creditos_sucursal(){
-  var sucursal= $("#sucursal").val();
+  let sucursal= $("#sucursal").val();
   let sucursal_usuario = $("#sucursal_usuario").val();
+  let ver_credito = $("#ver_credito").val();
   tabla_creditos_sucursal=$('#creditos_de_contado').dataTable(
   {
     "aProcessing": true,//Activamos el procesamiento del datatables
@@ -41,7 +41,7 @@ function listar_creditos_sucursal(){
         url: 'ajax/creditos.php?op=listar_creditos_contado',
         type : "post",
         dataType : "json",
-        data:{sucursal:sucursal,sucursal_usuario:sucursal_usuario},
+        data:{sucursal:sucursal,sucursal_usuario:sucursal_usuario,ver_credito:ver_credito},
         error: function(e){
           console.log(e.responseText);
         }
@@ -49,138 +49,35 @@ function listar_creditos_sucursal(){
       "bDestroy": true,
       "responsive": true,
       "bInfo":true,
-      "iDisplayLength": 20,//Por cada 20 registros hace una paginación
+      "iDisplayLength": 25,//Por cada 25 registros hace una paginación
       "order": [[ 0, "desc" ]],//Ordenar (columna,orden)
 
       "language": {
-
         "sProcessing":     "Procesando...",
-
         "sLengthMenu":     "Mostrar _MENU_ registros",
-
         "sZeroRecords":    "No se encontraron resultados",
-
         "sEmptyTable":     "Ningún dato disponible en esta tabla",
-
         "sInfo":           "Mostrando un total de _TOTAL_ registros",
-
         "sInfoEmpty":      "Mostrando un total de 0 registros",
-
         "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-
         "sInfoPostFix":    "",
-
         "sSearch":         "Buscar:",
-
         "sUrl":            "",
-
         "sInfoThousands":  ",",
-
         "sLoadingRecords": "Cargando...",
-
         "oPaginate": {
-
           "sFirst":    "Primero",
-
           "sLast":     "Último",
-
           "sNext":     "Siguiente",
-
           "sPrevious": "Anterior"
-
         },
-
         "oAria": {
-
           "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-
           "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-
         }
-
          }//cerrando language
-
        }).DataTable();
 }
-///////////////LISTAR CREDITOS DE CARGO AUTOMATICO
-/*function listar_creditos_cauto(){
-  let sucursal= $("#sucursal").val();
-  let sucursal_usuario = $("#sucursal_usuario").val();
-  tabla_creditos_cauto=$('#creditos_cauto').dataTable(
-  {
-    "aProcessing": true,//Activamos el procesamiento del datatables
-      "aServerSide": true,//Paginación y filtrado realizados por el servidor
-      dom: 'Bfrtip',//Definimos los elementos del control de tabla
-      buttons: [
-      'excelHtml5'
-      ],
-      "ajax":
-      {
-        url: 'ajax/creditos.php?op=listar_creditos_cauto',
-        type : "post",
-        dataType : "json",
-        data:{sucursal:sucursal,sucursal_usuario:sucursal_usuario},
-        error: function(e){
-          console.log(e.responseText);
-        }
-      },
-      "bDestroy": true,
-      "responsive": true,
-      "bInfo":true,
-    "iDisplayLength": 10,//Por cada 10 registros hace una paginación
-      "order": [[ 0, "desc" ]],//Ordenar (columna,orden)
-
-      "language": {
-
-        "sProcessing":     "Procesando...",
-
-        "sLengthMenu":     "Mostrar _MENU_ registros",
-
-        "sZeroRecords":    "No se encontraron resultados",
-
-        "sEmptyTable":     "Ningún dato disponible en esta tabla",
-
-        "sInfo":           "Mostrando un total de _TOTAL_ registros",
-
-        "sInfoEmpty":      "Mostrando un total de 0 registros",
-
-        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-
-        "sInfoPostFix":    "",
-
-        "sSearch":         "Buscar:",
-
-        "sUrl":            "",
-
-        "sInfoThousands":  ",",
-
-        "sLoadingRecords": "Cargando...",
-
-        "oPaginate": {
-
-          "sFirst":    "Primero",
-
-          "sLast":     "Último",
-
-          "sNext":     "Siguiente",
-
-          "sPrevious": "Anterior"
-
-        },
-
-        "oAria": {
-
-          "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-
-          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-
-        }
-
-         }//cerrando language
-
-       }).DataTable();
-}*/
-
 
 /////////////RELLENAR LA EMPRESA DE PACIENTE EMPRESARIAL
 function agregar_empresa_pac(id_empresa){      
@@ -912,10 +809,7 @@ function get_finaliza(){
     buttons: [              
     'copyHtml5',
     'excelHtml5',
-    'csvHtml5',
-    'pdf'
     ],
-
     "ajax":{
       url:"ajax/creditos.php?op=listar_oid_pendientes",
       type : "post",
@@ -925,7 +819,6 @@ function get_finaliza(){
         console.log(e.responseText);
       },           
     },
-
     "bDestroy": true,
     "responsive": true,
     "bInfo":true,
@@ -933,57 +826,30 @@ function get_finaliza(){
           "order": [[ 0, "desc" ]],//Ordenar (columna,orden)
 
           "language": {
-
             "sProcessing":     "Procesando...",
-
             "sLengthMenu":     "Mostrar _MENU_ registros",
-
             "sZeroRecords":    "No se encontraron resultados",
-
             "sEmptyTable":     "Ningún dato disponible en esta tabla",
-
             "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-
             "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-
             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-
             "sInfoPostFix":    "",
-
             "sSearch":         "Buscar:",
-
             "sUrl":            "",
-
             "sInfoThousands":  ",",
-
             "sLoadingRecords": "Cargando...",
-
             "oPaginate": {
-
               "sFirst":    "Primero",
-
               "sLast":     "Último",
-
               "sNext":     "Siguiente",
-
               "sPrevious": "Anterior"
-
             },
-
             "oAria": {
-
               "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-
               "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-
             }
-
          }, //cerrando language
-
-          //"scrollX": true
-
         });
-
     }
 
     /************************************************************
@@ -998,9 +864,7 @@ function get_finaliza(){
     dom: 'Bfrtip',//Definimos los elementos del control de tabla
     buttons: [              
     'copyHtml5',
-    'excelHtml5',
-    'csvHtml5',
-    'pdf'
+    'excelHtml5'
     ],
 
     "ajax":{
@@ -1020,57 +884,30 @@ function get_finaliza(){
           "order": [[ 0, "desc" ]],//Ordenar (columna,orden)
 
           "language": {
-
             "sProcessing":     "Procesando...",
-
             "sLengthMenu":     "Mostrar _MENU_ registros",
-
             "sZeroRecords":    "No se encontraron resultados",
-
             "sEmptyTable":     "Ningún dato disponible en esta tabla",
-
             "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-
             "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-
             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-
             "sInfoPostFix":    "",
-
             "sSearch":         "Buscar:",
-
             "sUrl":            "",
-
             "sInfoThousands":  ",",
-
             "sLoadingRecords": "Cargando...",
-
             "oPaginate": {
-
               "sFirst":    "Primero",
-
               "sLast":     "Último",
-
               "sNext":     "Siguiente",
-
               "sPrevious": "Anterior"
-
             },
-
             "oAria": {
-
               "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-
               "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-
             }
-
          }, //cerrando language
-
-          //"scrollX": true
-
         });
-
     }  
 
   var detalle_venta_flotante = [];
@@ -1426,6 +1263,7 @@ function denegar_od_planilla(){
 function listar_creditos_cauto(){
   var sucursal= $("#sucursal").val();
   let sucursal_usuario = $("#sucursal_usuario").val();
+  let ver_credito = $("#ver_credito").val();
   tabla_creditos_cauto=$('#creditos_cauto').dataTable(
   {
     "aProcessing": true,//Activamos el procesamiento del datatables
@@ -1439,7 +1277,7 @@ function listar_creditos_cauto(){
         url: 'ajax/creditos.php?op=listar_creditos_cauto',
         type : "post",
         dataType : "json",
-        data:{sucursal:sucursal,sucursal_usuario:sucursal_usuario},
+        data:{sucursal:sucursal,sucursal_usuario:sucursal_usuario,ver_credito:ver_credito},
         error: function(e){
           console.log(e.responseText);
         }
@@ -1447,66 +1285,41 @@ function listar_creditos_cauto(){
       "bDestroy": true,
       "responsive": true,
       "bInfo":true,
-    "iDisplayLength": 20,//Por cada 20 registros hace una paginación
+    "iDisplayLength": 25,//Por cada 25registros hace una paginación
       "order": [[ 0, "desc" ]],//Ordenar (columna,orden)
 
       "language": {
-
         "sProcessing":     "Procesando...",
-
         "sLengthMenu":     "Mostrar _MENU_ registros",
-
         "sZeroRecords":    "No se encontraron resultados",
-
         "sEmptyTable":     "Ningún dato disponible en esta tabla",
-
         "sInfo":           "Mostrando un total de _TOTAL_ registros",
-
         "sInfoEmpty":      "Mostrando un total de 0 registros",
-
         "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-
         "sInfoPostFix":    "",
-
         "sSearch":         "Buscar:",
-
         "sUrl":            "",
-
         "sInfoThousands":  ",",
-
         "sLoadingRecords": "Cargando...",
-
         "oPaginate": {
-
           "sFirst":    "Primero",
-
           "sLast":     "Último",
-
           "sNext":     "Siguiente",
-
           "sPrevious": "Anterior"
-
         },
-
         "oAria": {
-
           "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-
           "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-
         }
-
          }//cerrando language
-
        }).DataTable();
 }
-
 
 /////////LISTAR OIDS CREADAS
 function listar_oid_aprobadas(){
   let sucursal= $("#sucursal").val();
   let sucursal_usuario = $("#sucursal_usuario").val();
-  //console.log(sucursal_usuario).val();return false;
+
   tabla_oid_creadas=$('#oid_aprobadas').dataTable({
       "aProcessing": true,//Activamos el procesamiento del datatables
       "aServerSide": true,//Paginación y filtrado realizados por el servidor
@@ -1527,57 +1340,32 @@ function listar_oid_aprobadas(){
       "bDestroy": true,
       "responsive": true,
       "bInfo":true,
-    "iDisplayLength": 20,//Por cada 20 registros hace una paginación
+    "iDisplayLength": 25,//Por cada 25registros hace una paginación
       "order": [[ 0, "desc" ]],//Ordenar (columna,orden)
-
       "language": {
-
         "sProcessing":     "Procesando...",
-
         "sLengthMenu":     "Mostrar _MENU_ registros",
-
         "sZeroRecords":    "No se encontraron resultados",
-
         "sEmptyTable":     "Ningún dato disponible en esta tabla",
-
         "sInfo":           "Mostrando un total de _TOTAL_ registros",
-
         "sInfoEmpty":      "Mostrando un total de 0 registros",
-
         "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-
         "sInfoPostFix":    "",
-
         "sSearch":         "Buscar:",
-
         "sUrl":            "",
-
         "sInfoThousands":  ",",
-
         "sLoadingRecords": "Cargando...",
-
         "oPaginate": {
-
           "sFirst":    "Primero",
-
           "sLast":     "Último",
-
           "sNext":     "Siguiente",
-
           "sPrevious": "Anterior"
-
         },
-
         "oAria": {
-
           "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-
           "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-
         }
-
          }//cerrando language
-
        }).DataTable();
 }
 
@@ -1664,9 +1452,7 @@ function calcularMontoCcf(){
     dom: 'Bfrtip',//Definimos los elementos del control de tabla
     buttons: [              
     'copyHtml5',
-    'excelHtml5',
-    'csvHtml5',
-    'pdf'
+    'excelHtml5'
     ],
 
     "ajax":{
@@ -1683,59 +1469,31 @@ function calcularMontoCcf(){
     "bInfo":true,
         "iDisplayLength": 20,//Por cada 20 registros hace una paginación
           "order": [[ 0, "desc" ]],//Ordenar (columna,orden)
-
           "language": {
-
             "sProcessing":     "Procesando...",
-
             "sLengthMenu":     "Mostrar _MENU_ registros",
-
             "sZeroRecords":    "No se encontraron resultados",
-
             "sEmptyTable":     "Ningún dato disponible en esta tabla",
-
             "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-
             "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-
             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-
             "sInfoPostFix":    "",
-
             "sSearch":         "Buscar:",
-
             "sUrl":            "",
-
             "sInfoThousands":  ",",
-
             "sLoadingRecords": "Cargando...",
-
             "oPaginate": {
-
               "sFirst":    "Primero",
-
               "sLast":     "Último",
-
               "sNext":     "Siguiente",
-
               "sPrevious": "Anterior"
-
             },
-
             "oAria": {
-
               "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-
               "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-
             }
-
          }, //cerrando language
-
-          //"scrollX": true
-
         });
-
     }  
     
     function eliminar_oid_p(numero_orden){

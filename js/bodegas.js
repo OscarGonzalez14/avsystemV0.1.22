@@ -863,7 +863,7 @@ $('#aros-list').on('select2:select', function (e) {
   let data = e.params.data;
   let id_producto = data.id;
   let descripcion = data.text;
-  console.log(`id ${id_producto} desc  ${descripcion}`)
+  document.getElementById("select-all-bod-chk").checked = false
 let obj = {
   id_producto : id_producto,
   descripcion : descripcion,
@@ -893,16 +893,15 @@ function listarArosUbicarBodega(){
     "</tr>";
     
   }
- 
+  check_selected();
   $("#ingreso-grupal-temp").html(filas);
   maxIndex = aros_bodega.length - 1;
   let id_item = 'costo-item'+maxIndex;
   $('#'+id_item).focus();
-  $('#'+id_item).select();
- // document.getElementById(id_item).focus();
-  
+  $('#'+id_item).select();   
 
 }
+
 
 function setCantidadProd(idx){
   let cantidad = document.getElementById("cant-item"+idx).value;
@@ -979,7 +978,6 @@ var itemsSelectGrupal = []
 function agregarStockGrupal(){
   itemsSelectGrupal = [];
   let items_prod = document.getElementsByClassName('ubicar-bodega');
-  console.log(items_prod)
   for (var i = 0; i < items_prod.length; i++) {
     let id = items_prod[i].id;
     let checkbox = document.getElementById(id);
@@ -991,7 +989,8 @@ function agregarStockGrupal(){
         descripcion : aros_bodega[idy].descripcion,
         cantidad: aros_bodega[idy].cantidad,
         costo: aros_bodega[idy].costo,
-        pventa: aros_bodega[idy].pventa
+        pventa: aros_bodega[idy].pventa,
+        indice: idy
       }
       itemsSelectGrupal.push(productos)
     }
@@ -999,6 +998,18 @@ function agregarStockGrupal(){
   }
   console.log(itemsSelectGrupal)
 
+}
+
+function  check_selected(){
+  let tam_array =itemsSelectGrupal.length;
+  console.log(tam_array)
+  if(tam_array>0){
+    for (var i = 0; i < tam_array.length; i++) {
+        let chk = tam_array[i].indice;
+        console.log(chk)
+        document.getElementById("prodchk"+chk).checked = true
+    }
+  }
 }
 
 init();

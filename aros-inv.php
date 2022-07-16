@@ -99,6 +99,62 @@ require_once('modals/nueva_marca.php');
   </div>
 </div>
 
+<!--MODAL RESUMEN INGRESOS BODEGA -->
+
+<div class="modal" id="ingresos-bodega-grupal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Ingresos a bodega</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+          <table class="table table-striped" width="100%" style="text-align: center">
+          <thead>
+          <tr>
+            <th>Total Productos</th>
+            <th>Total Costos</th>
+            <th>Total P. Venta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th><span id="tot-prod-grup"></span></th>
+            <td><span id="costos-grup"></span></td>
+            <td><span id="pventa-grup"></span></td>
+          </tr>
+          <tr>
+        </tbody>
+      </table>
+
+      <div class="form-group col-md-12">
+            <label for="ubicacion">Ubicacion</label>
+            <select name="" id="ubicacion_ind_grup" class="form-control clear_i">
+                <option value="">Seleccionar ....</option>
+                <option value="Gaveta 1">Gaveta 1</option>
+                <option value="Gaveta 2">Gaveta 2</option>
+                <option value="Gaveta 3">Gaveta 3</option>
+            </select>
+       </div>
+      </div>
+
+     
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark btn-block" data-dismiss="modal" onClick="ingresosGrupal()"><span class="material-symbols-outlined">add_home</span></button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!--MODAL RESUMEN INGRESOS BODEGA -->
+
 <input type="hidden" id="usuario" value="<?php echo $_SESSION["usuario"];?>">
 <input type="hidden" id="sucursal" value="<?php echo $_SESSION["sucursal"];?>">
 <input type="hidden" id="idx-prod">

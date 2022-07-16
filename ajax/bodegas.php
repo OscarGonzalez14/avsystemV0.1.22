@@ -187,6 +187,13 @@ case "ingresoIndividualBodega":
 
   break;
 
+  case "ingreso_grupal":
+    $n_compra = $compras->get_numero_compras();
+    $n_ingreso = $bodegas->get_numero_ingreso();
+    $bodegas->ingresoGrupal($_POST["ubicacion"],$_POST["usuario"],$_POST["sucursal"],$n_compra,$n_ingreso,$_POST["totales_compra"]);
+
+    break;
+
   case 'listar_aros_bodega':
     require_once '../modelos/Productos.php';
     $productos = new Productos();

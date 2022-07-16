@@ -893,7 +893,7 @@ function listarArosUbicarBodega(){
     "</tr>";
     
   }
-  check_selected();
+  //check_selected();
   $("#ingreso-grupal-temp").html(filas);
   maxIndex = aros_bodega.length - 1;
   let id_item = 'costo-item'+maxIndex;
@@ -996,20 +996,57 @@ function agregarStockGrupal(){
     }
 
   }
-  console.log(itemsSelectGrupal)
+  //console.log(itemsSelectGrupal)
+  calculaValidaSeleccionados()
 
 }
 
-function  check_selected(){
+function calculaValidaSeleccionados(){
   let tam_array =itemsSelectGrupal.length;
-  console.log(tam_array)
+  let total_cantidad= 0;
+  let total_costo= 0;
+  let total_pventa= 0;
   if(tam_array>0){
-    for (var i = 0; i < tam_array.length; i++) {
-        let chk = tam_array[i].indice;
-        console.log(chk)
-        document.getElementById("prodchk"+chk).checked = true
+    for (var j = 0; j < itemsSelectGrupal.length; j++) {
+      let cantidad = itemsSelectGrupal[j].cantidad;
+      let costo = itemsSelectGrupal[j].costo;
+      let pventa = itemsSelectGrupal[j].pventa;
+      if(cantidad!=0 && costo!=0 && pventa!=0 && cantidad!="" && costo!=""&& pventa!=""){
+        total_cantidad = parseFloat(total_cantidad) + parseFloat(cantidad);
+        total_costo = parseFloat(total_costo) + parseFloat(costo);
+        total_pventa = parseFloat(total_pventa) + parseFloat(pventa);
+      }else{
+        Swal.fire('Existe un campo vacio','','warning'); return false
+      }
     }
+    
+    $("#ingresos-bodega-grupal").modal();
+    $("#tot-prod-grup").html(total_cantidad);
+    $("#costos-grup").html(total_costo);
+    $("#pventa-grup").html(total_pventa);
+  }else{
+    Swal.fire('Debe seleccionar productos','','error')
   }
+}
+
+function ingresosGrupal(){
+
+  let usuario = $("#usuario").val();
+  let sucursal = $("#sucursal").html();
+  let ubicacion = $("#ubicacion_ind_grup").val();
+  let totales_compra = $("#pventa-grup").html();
+
+  $.ajax({
+    url:"ajax/bodegas.php?op=ingreso_grupal",
+    method:"POST",
+    data:{'arrayProdGrupal':JSON.stringify(itemsSelectGrupal),'usuario':usuario,'sucursal':sucursal,'ubicacion':ubicacion,'totales_compra':totales_compra},
+    cache: false,
+    dataType:"json",
+    success:function(data){  
+    }
+
+  });
+
 }
 
 init();

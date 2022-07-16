@@ -389,6 +389,74 @@ $sql="insert into existencias values (null,?,?,?,?,?,?,?,?);";
    echo json_encode($msj); 
   }
 
+  public function ingresoGrupal($ubicacion,$usuario,$sucursal,$numero_compra,$numero_ingreso,$totales_compra){
+    $conectar = parent::conexion();
+    date_default_timezone_set('America/El_Salvador'); 
+    $hoy = date("d-m-Y H:i:s");
+
+    $detalles = array();
+    $detalles = json_decode($_POST['arrayProdGrupal']); 
+
+    foreach($detalles as $k => $v){
+      $cantidad_ingreso = $v->cantidad;
+      $descripcion = $v->descripcion;
+      $id_producto = $v->idProd;
+      $precio_venta =$v->pventa;
+      $costo_u = $v->costo;
+
+
+      $sql="select stock from existencias where id_producto=? and bodega=? and categoria_ub=? and num_compra=?;";
+      $sql=$conectar->prepare($sql);
+      $sql->bindValue(1,$id_producto);
+      $sql->bindValue(2,$sucursal);
+      $sql->bindValue(3,$ubicacion);
+      $sql->bindValue(4,$numero_compra);
+      $sql->execute();
+      $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+      if(is_array($resultado)==true and count($resultado)>0){
+        foreach($resultado as $row){
+          $stock_prod = $row["stock"];
+      }
+      }else{
+        $stock_prod = 0;
+      }
+    
+      $nuevo_stock = $stock_prod + $cantidad_ingreso;
+    
+      if(is_array($resultado)==true and count($resultado)>0) {                     
+       
+      $sql4 = "update existencias set stock=? where id_producto=? and bodega=? and categoria_ub=?";
+      $sql4 = $conectar->prepare($sql4);
+      $sql4->bindValue(1,$nuevo_stock);
+      $sql4->bindValue(2,$id_producto);
+      $sql4->bindValue(3,$sucursal);
+      $sql4->bindValue(4,$ubicacion);
+      $sql4->execute();
+    }else{
+      $sql="insert into existencias values (null,?,?,?,?,?,?,?,?);";
+      $sql=$conectar->prepare($sql);
+      $sql->bindValue(1,$id_producto);
+      $sql->bindValue(2,$cantidad_ingreso);
+      $sql->bindValue(3,$sucursal);
+      $sql->bindValue(4,$ubicacion);
+      $sql->bindValue(5,$hoy);
+      $sql->bindValue(6,$usuario);
+      $sql->bindValue(7,$numero_compra);
+      $sql->bindValue(8,$precio_venta);
+      $sql->execute();
+    } //cierre la condicional
+
+    $total_compra = $cantidad_ingreso * $costo_u;
+    
+    $detCompra = $this->registrarDetalleCompra($numero_compra,"-",$cantidad_ingreso,$costo_u,$precio_venta,$total_compra,"0",$usuario,$id_producto,$hoy,$cantidad_ingreso);
+
+    }//FIN FOREACH
+ 
+    $compra = $this->registraCompra($numero_compra,"-","Andres Vasquez","Contado","Efectivo","12",$hoy,"CCF","12345",$usuario,$totales_compra,"1",$sucursal);
+    
+  }
+
 public function registraCompra($n_compra,$codigo_proveedor,$proveedor_compra,$tipo_compra,$tipo_pago,$plazo,$fecha,  $tipo_documento,$documento,$usuario,$total_compra,$estado,$sucursal){
   $conectar= parent::conexion();
   $sql2="insert into compras values(null,?,?,?,?,?,?,?,?,?,?,?,?,?);";
